@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas {
+      border: 1px solid white;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas width="400" height="400" id="game"></canvas>
+  <script>
+    var canvas = document.getElementById('game');
+    var context = canvas.getContext('2d');
+    var grid = 16;
+    var count = 0;
+
+    var snake = {
+      x: 160,
+      y: 160,
+
+      // snake fart, beveger seg en grid i valgt retning
+      dx: grid,
+      dy: 0,
+
+      // grids som snake opptar
+      cells: [],
+
+      // startlengde
+      maxCells: 4
+    };
+    var apple = {
+      x: 320,
+      y: 320
+    };
+    // random nummer i range
+    // https://stackoverflow.com/a/1527820/2124254
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+    // game loop
+    function loop() {
+      requestAnimationFrame(loop);
+      // slow game loop to 15 fps instead of 60 (60/15 = 4)
+      if (++count < 4) {
+        return;
+      }
+      count = 0;
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      // move snake by it's velocity
+      snake.x += snake.dx;
+      snake.y += snake.dy;
+      // bytt side horisontalt
+      if (snake.x < 0) {
+        snake.x = canvas.width - grid;
+      } else if (snake.x >= canvas.width) {
+        snake.x = 0;
+      }
+
+      // bytt side vertikalt
+      if (snake.y < 0) {
+        snake.y = canvas.height - grid;
+      } else if (snake.y >= canvas.height) {
+        snake.y = 0;
+      }
+      // vite hvor slangen er , fronten på array er front på slange
+      snake.cells.unshift({
+        x: snake.x,
+        y: snake.y
+      });
+      // ta bort celler som den går bort fra
+      if (snake.cells.length > snake.maxCells) {
+        snake.cells.pop();
+      }
+      // tegn  eple
+      context.fillStyle = 'red';
+      context.fillRect(apple.x, apple.y, grid - 1, grid - 1);
+      // tegn slangen en cellen om gangen
+      context.fillStyle = 'green';
+      snake.cells.forEach(function(cell, index) {
+
+        // tegn cellene 1 px mindre enn grid for å skape keeg slange
+        context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
+        // slange spiser eple
+        if (cell.x === apple.x && cell.y === apple.y) {
+          snake.maxCells++;
+          // canvas er 400x400 som er 25x25 griod
+          apple.x = getRandomInt(0, 25) * grid;
+          apple.y = getRandomInt(0, 25) * grid;
+        }
+        // sjekk kolisjon med alle cellene
+        for (var i = index + 1; i < snake.cells.length; i++) {
+
+          // hvis slangen er på samme sted som en celle, restart
+          if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+            snake.x = 160;
+            snake.y = 160;
+            snake.cells = [];
+            snake.maxCells = 4;
+            snake.dx = grid;
+            snake.dy = 0;
+            apple.x = getRandomInt(0, 25) * grid;
+            apple.y = getRandomInt(0, 25) * grid;
+          }
+        }
+      });
+    }
+    // beveg slange på buttonprss
+    document.addEventListener('keydown', function(e) {
+      // gjør sånn at slangen ikke kan gå tilbake på samme akse
+
+      // venstre
+      if (e.which === 37 && snake.dx === 0) {
+        snake.dx = -grid;
+        snake.dy = 0;
+      }
+      // opp
+      else if (e.which === 38 && snake.dy === 0) {
+        snake.dy = -grid;
+        snake.dx = 0;
+      }
+      // høyre
+      else if (e.which === 39 && snake.dx === 0) {
+        snake.dx = grid;
+        snake.dy = 0;
+      }
+      // ned
+      else if (e.which === 40 && snake.dy === 0) {
+        snake.dy = grid;
+        snake.dx = 0;
+      }
+    });
+    // start
+    requestAnimationFrame(loop);
+  </script>
+</body>
+
+</html>
