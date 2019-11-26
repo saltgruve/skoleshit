@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <script type="text/javascript">
+    window.onload = oppstart;
+
+    function oppstart() {
+      document.getElementById("input-1").style.display = "none";
+      document.getElementById("input-2").style.display = "none";
+      document.getElementById("input-3").style.display = "none";
+    }
+    var spørsmål = ["Hva heter hovedstaden i Norge?", "Hva er 2 + 7?", "Hva er en fossekall?",
+      "Du er ferdig med quizzen! Se resultatene dine:"
+    ];
+    var bilder = ["operaen.jpg", "matte.jpg", "fossekall.jpg"]
+    var alt1 = ["Stockholm", "4", "Fugl", ""];
+    var alt2 = ["Oslo", "5", "Hest", ""];
+    var alt3 = ["Paris", "9", "Fisk", ""];
+    var poeng = 0;
+    var i = 0;
+    var riktigSvar = ["Oslo", "9", "Fugl"];
+    function myFunction() {
+      document.getElementById("bilde").src = bilder[i];
+      document.getElementById("input-1").checked = false;
+      document.getElementById("input-2").checked = false;
+      document.getElementById("input-3").checked = false;
+      document.getElementById("svar1").style.color = "black";
+      document.getElementById("svar2").style.color = "black";
+      document.getElementById("svar3").style.color = "black";
+      document.getElementById("bruhtton").innerHTML = "Neste spørsmål";
+      document.getElementById("input-1").style.display = "inline";
+      document.getElementById("input-2").style.display = "inline";
+      document.getElementById("input-3").style.display = "inline";
+      document.getElementById("spørsmålområde").innerHTML = spørsmål[i];
+      document.getElementById("svar1").innerHTML = alt1[i];
+      document.getElementById("svar2").innerHTML = alt2[i];
+      document.getElementById("svar3").innerHTML = alt3[i];
+      i++;
+      if (i > alt1.length - 1) {
+
+        var parent = document.getElementById("område");
+        var ele1 = document.getElementById("input-1");
+        var ele2 = document.getElementById("input-2");
+        var ele3 = document.getElementById("input-3");
+        parent.removeChild(ele1);
+        parent.removeChild(ele2);
+        parent.removeChild(ele3);
+
+        document.getElementById("bruhtton").disabled = true;
+        document.getElementById("svar2").innerHTML = "Din totale poengsum ble: " +poeng+" av " +(spørsmål.length-1);
+      }
+    }
+
+    function trykk1() {
+        if (document.getElementById("svar1").innerHTML == riktigSvar[0] ||
+        document.getElementById("svar1").innerHTML == riktigSvar[1] ||
+        document.getElementById("svar1").innerHTML == riktigSvar[2]) {
+          document.getElementById("svar1").style.color = "green";
+          poeng++;
+        } else {
+          document.getElementById("svar1").style.color = "red";
+
+      }
+    }
+    function trykk2() {
+        if (document.getElementById("svar2").innerHTML == riktigSvar[0] ||
+        document.getElementById("svar2").innerHTML == riktigSvar[1] ||
+        document.getElementById("svar2").innerHTML == riktigSvar[2]) {
+          document.getElementById("svar2").style.color = "green";
+          poeng++;
+        } else {
+          document.getElementById("svar2").style.color = "red";
+
+      }
+    }
+    function trykk3() {
+        if (document.getElementById("svar3").innerHTML == riktigSvar[0] ||
+        document.getElementById("svar3").innerHTML == riktigSvar[1] ||
+        document.getElementById("svar3").innerHTML == riktigSvar[2]) {
+          document.getElementById("svar3").style.color = "green";
+          poeng++;
+        } else {
+          document.getElementById("svar3").style.color = "red";
+
+      }
+    }
+
+
+  </script>
+</head>
+<style media="screen">
+  h1 {
+    text-decoration: underline;
+    font-size: 60px;
+  }
+  label {
+    font-size: 25px;
+  }
+  h2 {
+    font-size: 30px;
+  }
+  img {
+    position: absolute;
+    left: 810px;
+    bottom: ;
+    width: 300px;
+    height: 175px;
+    top: 380px;
+  }
+button {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 250px;
+  font-size: 25px;
+  background-color: turquoise;
+  border: solid thick red;
+  position: absolute;
+  top: 570px;
+  right: 835px;
+}
+button:hover {
+  cursor: pointer;
+  background-color: orange;
+  transition: 0.7s;
+}
+  #område {
+    width: 500px;
+    height: 500px;
+    border: solid thick black;
+  }
+</style>
+
+
+<body>
+  <script type="text/javascript">
+    if (i == spørsmål.length - 1) {
+      document.write(poeng);
+    }
+  </script>
+  <center>
+    <h1>Quiz!</h1>
+    <div id="område">
+      <h2 id="spørsmålområde">Velkommen til quiz! <br /> Trykk på knappen for å starte! </h2><br />
+      <input type="radio" name="spørsalt" value="1" id="input-1" onclick="trykk1()"><label id="svar1"></label><br />
+      <input type="radio" name="spørsalt" value="2" id="input-2" onclick="trykk2()"><label id="svar2"></label><br />
+      <input type="radio" name="spørsalt" value="3" id="input-3" onclick="trykk3()"><label id="svar3"></label><br />
+      <img id="bilde" alt="" src="hvitt.jpg"/>
+      <button onclick="myFunction()" id="bruhtton">Start quizzen!</button>
+    </div>
+  </center>
+</body>
+
+</html>
