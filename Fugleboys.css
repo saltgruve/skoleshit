@@ -1,0 +1,55 @@
+#container {
+  border: 2px solid black;
+  height: 800px;
+  max-height: 100%;
+}
+#storbilde {
+   border: 2px solid black;
+   transition: all 1.5s;
+   left: 20px;
+   max-width: 100%;
+   top: 125px;
+   position: absolute;
+}
+#nyttbilde {
+  display: none;
+}
+audio {
+  position: absolute;
+  top: 20px;
+  float: left;
+
+}
+#midtDiv {
+  border: 1px solid black;
+  width: 15%;
+}
+#quizImg {
+  width: 400px;
+  height: 400px;
+  float: right;
+  right: 20px;
+  top: 125px;
+  position: absolute;
+  display: none;
+  border: 2px solid black;
+}
+#svarContainer {
+  border: 1px solid black;
+  float: left;
+  position: absolute;
+  right: 20px;
+  top: 125px;
+  max-width: 25%;
+}
+button {
+  padding: 5px;
+  border-radius: 7.5px;
+  border: 2px solid green;
+  background-color: orange;
+}
+button:hover {
+  background-color: green;
+  border: 2px solid orange;
+  cursor: pointer;
+}
